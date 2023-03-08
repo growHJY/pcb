@@ -19,10 +19,11 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
     pcb_char_area_open_mor = cv.morphologyEx(binary, cv.MORPH_OPEN, (5, 5))
 
     chars_png_dir = os.listdir(input_chars_png_path)
-    # todo 接下来的工作应该是处理循环的是字符的个数，而不是文件夹里图片的个数，因为会有一些重复的字符，会导致缺少识别的情况
+
     with open(pcb_char_loc_txt, "r") as f:
         zbs = f.readlines()
 
+        # 这个数组是为了排序找到的字符
         match_result = []
         for zb in zbs:
             zb_x = int(zb.split(",")[0])
@@ -43,13 +44,14 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
 
                 result = cv.matchTemplate(roi, char_open_mor, cv.TM_CCORR_NORMED)
                 c_min_v, c_max_v, c_min_l, c_max_l = cv.minMaxLoc(result)
-                # todo 判断时最好排序一下分数的高低情况，否则容易出现误判的情况
+
                 score_arr.append({
                     "char": char_name,
                     "score": c_max_v,
                     "loc": (zb_x, zb_y)
                 })
 
+            # 找到分值最高的一项
             max_score = 0
             max_index = -1
 
@@ -62,6 +64,7 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
 
             match_result.append(target_char)
 
+            # 画框标注
             cv.rectangle(pcb_area_mat, (target_char["loc"][0] + p_max_l[0], target_char["loc"][1] + p_max_l[1]),
                          (target_char["loc"][0] + p_max_l[0] + 64, target_char["loc"][1] + p_max_l[1] + 64),
                          (0, 0, 255), 4)
@@ -69,22 +72,21 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
                        (target_char["loc"][0] + p_max_l[0], target_char["loc"][1] + p_max_l[1]),
                        cv.FONT_HERSHEY_SIMPLEX, 1.3, (255, 255, 255), 4)
 
-        # rp = cv.resize(pcb_area_mat, (600,600))
-        # cv.imshow("a",rp)
-        # cv.waitKey()
-
+        # 将标注好的结果保存到pcb上
         cv.imwrite(pcb_area, pcb_area_mat)
 
+        # 先按 y 进行排序 目的是为了分成两行 part1为上行 part2为下行
         for j in range(len(match_result) - 1):
             for i in range(len(match_result) - 1 - j):
-
                 if match_result[i]["loc"][1] > match_result[i + 1]["loc"][1]:
                     temp = match_result[i]
                     match_result[i] = match_result[i + 1]
                     match_result[i + 1] = temp
 
+        # 取前11个字符进行保存
         part1 = match_result[:int(len(match_result) / 2)]
 
+        # 按 x 进行 part1 排序
         for j in range(len(part1) - 1):
             for i in range(len(part1) - 1 - j):
 
@@ -93,16 +95,17 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
                     part1[i] = part1[i + 1]
                     part1[i + 1] = temp
 
+        # 取后11个进行 part2 排序
         part2 = match_result[int(len(match_result) / 2):]
-
+        # 按 x 进行 part2 排序
         for j in range(len(part2) - 1):
             for i in range(len(part2) - 1 - j):
-
                 if part2[i]["loc"][0] > part2[i + 1]["loc"][0]:
                     temp = part2[i]
                     part2[i] = part2[i + 1]
                     part2[i + 1] = temp
 
+        # 最后的结果
         res_arr = part1 + part2
 
         str_chars = ""

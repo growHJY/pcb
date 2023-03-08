@@ -8,8 +8,7 @@ pcb_id = "5"
 
 def cut_chars(out_put_chars, in_put_pcb_char, pcb_char_loc_txt):
     in_put_img = cv.imread(in_put_pcb_char)
-    # cv.imshow("aa",in_put_img)
-    # cv.waitKey()
+
     gauss = cv.GaussianBlur(in_put_img, (5, 5), sigmaX=1, sigmaY=1)
 
     gray = cv.cvtColor(gauss, cv.COLOR_BGR2GRAY)
@@ -31,9 +30,6 @@ def cut_chars(out_put_chars, in_put_pcb_char, pcb_char_loc_txt):
         time.sleep(0.001)
         with open(pcb_char_loc_txt, "a") as f:
             f.write(f"{x},{y},{w},{h}\n")
-
-    # cv.imshow("demo", in_put_img)
-    # cv.waitKey()
 
 
 if __name__ == '__main__':

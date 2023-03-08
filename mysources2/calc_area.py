@@ -23,15 +23,24 @@ def match_draw_area(pcb_path, calc_area_path):
             # print(w, h)
             # print(f"w = {1.2*(w/46)} mm")
             # print(f"h = {1.2*(h/46)} mm")
-            aw = 1.2 * (w / 46)
-            ah = 1.2 * (h / 46)
+            aw = round(1.2 * (w / 46), 2)
+            ah = round(1.2 * (h / 46), 2)
             area = round(aw * ah, 3)
             cv.rectangle(pcb_mat, (x + max_l[0], y + max_l[1]), (x + max_l[0] + w, y + max_l[1] + h), (0, 255, 0), 3)
-            cv.putText(pcb_mat, f"{area}", (x + max_l[0] - 5, y + max_l[1]), cv.FONT_HERSHEY_SIMPLEX, 2.0,
-                       (255, 255, 255),
-                       3)
 
-    # cv.imwrite(pcb_path, pcb_mat)
+            font = cv.FONT_HERSHEY_SIMPLEX
+
+            (font_size_w, font_size_h), _ = cv.getTextSize("hello", font, 2, 3)
+            # 宽度 text
+            middle_w = int(w / 2)
+            cv.putText(pcb_mat, f"{aw}", (x + max_l[0] + middle_w, y + max_l[1]), font, 2, (255, 255, 255), 3)
+
+            # 高度 text
+            middle_h = int(h / 2)
+            cv.putText(pcb_mat, f"{ah}", (x + max_l[0] - (font_size_w + 5), y + max_l[1] + middle_h), font, 2,
+                       (255, 255, 255), 3)
+
+            # cv.imwrite(pcb_path, pcb_mat)
     ri = cv.resize(pcb_mat, (600, 600))
     cv.imshow("img", ri)
     cv.waitKey()
@@ -39,5 +48,5 @@ def match_draw_area(pcb_path, calc_area_path):
 
 if __name__ == '__main__':
     match_draw_area(
-        "C:/ssd/mysources2/pcb_imgs/5-pcb-area.bmp",
-        "C:/ssd/mysources2/pcb_imgs/5-pcb-area_calc.bmp")
+        "C:/ssd/mysources2/pcb_imgs/7-pcb-area.bmp",
+        "C:/ssd/mysources2/pcb_imgs/7-pcb-area_calc.bmp")
