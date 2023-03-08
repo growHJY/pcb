@@ -31,10 +31,10 @@ def match_draw_area(pcb_path, calc_area_path):
                        (255, 255, 255),
                        3)
 
-    cv.imwrite(pcb_path, pcb_mat)
-    # ri = cv.resize(pcb, (600, 600))
-    # cv.imshow("img", ri)
-    # cv.waitKey()
+    # cv.imwrite(pcb_path, pcb_mat)
+    ri = cv.resize(pcb_mat, (600, 600))
+    cv.imshow("img", ri)
+    cv.waitKey()
 
 
 if __name__ == '__main__':
