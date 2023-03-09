@@ -60,6 +60,20 @@ O_E_DICT = {
     "OEOEOE": "7", "OEOEEO": "8", "OEEOEO": "9"
 }
 
+# 右侧偶性字符字典
+C_E_DICT = {
+    "1110010": "0",
+    "1100110": "1",
+    "1101100": "2",
+    "1000010": "3",
+    "1011100": "4",
+    "1001110": "5",
+    "1010000": "6",
+    "1000100": "7",
+    "1001000": "8",
+    "1110100": "9",
+}
+
 # 奇偶排列数组
 oe_arr = []
 
@@ -67,14 +81,17 @@ oe_arr = []
 bar_left = bar_arr[:middle_bar_index + 1]
 
 left_code = ""
+
+# 条形码单更线的宽度
+line_width = 3
 # 计算宽度
 for i in range(len(bar_left) - 1):
-    black_bar = int(bar_left[i][2] / 3)
+    black_bar = int(bar_left[i][2] / line_width)
     if black_bar > 4:
         black_bar = 4
     for b in range(black_bar):
         left_code += "1"
-    white_bar = int((bar_left[i + 1][0] - (bar_left[i][0] + bar_left[i][2])) / 3)
+    white_bar = int((bar_left[i + 1][0] - (bar_left[i][0] + bar_left[i][2])) / line_width)
     if white_bar > 4:
         white_bar = 4
     for w in range(white_bar):
@@ -102,31 +119,18 @@ for i in range(count):
 # 这个变量表示由左侧数据推算出来的OE值
 OEN = O_E_DICT.get("".join(oe_arr))
 
-# 右侧偶性字符字典
-C_E_DICT = {
-    "1110010": "0",
-    "1100110": "1",
-    "1101100": "2",
-    "1000010": "3",
-    "1011100": "4",
-    "1001110": "5",
-    "1010000": "6",
-    "1000100": "7",
-    "1001000": "8",
-    "1110100": "9",
-}
 # 右侧条形码数据
 bar_right = bar_arr[middle_bar_index + 2:]
 # 计算宽度
 right_code = ""
 for i in range(len(bar_right) - 1):
-    black_bar = int(bar_right[i][2] / 3)
+    black_bar = int(bar_right[i][2] / line_width)
     if black_bar > 4:
         black_bar = 4
     for b in range(black_bar):
         right_code += "1"
 
-    white_bar = int((bar_right[i + 1][0] - (bar_right[i][0] + bar_right[i][2])) / 3)
+    white_bar = int((bar_right[i + 1][0] - (bar_right[i][0] + bar_right[i][2])) / line_width)
     if white_bar > 4:
         white_bar = 4
     for w in range(white_bar):
