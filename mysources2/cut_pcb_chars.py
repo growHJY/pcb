@@ -24,8 +24,7 @@ def cut_chars(out_put_chars, in_put_pcb_char, pcb_char_loc_txt):
 
     for c in contours:
         x, y, w, h = cv.boundingRect(c)
-        # cv.rectangle(in_put_img, (x, y), (x + w, y + h), (0, 0, 255), 1)
-        char_roi = in_put_img[y:y + 64, x:x + 64]
+        char_roi = in_put_img[y:y + 80, x:x + 80]
         # cv.imwrite(f"{out_put_chars}/{time.time()}.png", char_roi)
         time.sleep(0.001)
         with open(pcb_char_loc_txt, "a") as f:
@@ -33,6 +32,7 @@ def cut_chars(out_put_chars, in_put_pcb_char, pcb_char_loc_txt):
 
 
 if __name__ == '__main__':
-    cut_chars("C:/ssd/mysources2/pcb_imgs/characters/", f"C:/ssd/mysources2/pcb_imgs/{pcb_id}-pcb-area_char_area.png",
-              f"C:/ssd/mysources2/pcb_imgs/{pcb_id}-pcb-loc.txt")
+    for i in range(1, 6):
+        cut_chars("C:/ssd/mysources2/pcb_imgs/characters/", f"C:/ssd/mysources2/pcb_imgs/{i}-pcb-area_char_area.png",
+                  f"C:/ssd/mysources2/pcb_imgs/{i}-pcb-loc.txt")
     print("cut finish")

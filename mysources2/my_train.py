@@ -13,9 +13,9 @@ for img in img_list:
 
 
 
-part_id = 1
-img_ok = f"C:/ssd/mysources2/data/{part_id}/ok/"
-img_ng = f"C:/ssd/mysources2/data/{part_id}/ng/"
-xml_path = f"C:/ssd/mysources2/train_res/{part_id}-knn-hog.xml"
-
-imgproc.train_knn_hog(img_ok, img_ng, xml_path)
+# part_id = 4
+# img_ok = f"C:/ssd/mysources2/data/{part_id}/ok/"
+# img_ng = f"C:/ssd/mysources2/data/{part_id}/ng/"
+# xml_path = f"C:/ssd/mysources2/train_res/{part_id}-knn-hog.xml"
+#
+# imgproc.train_knn_hog(img_ok, img_ng, xml_path)

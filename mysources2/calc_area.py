@@ -20,9 +20,6 @@ def match_draw_area(pcb_path, calc_area_path):
     for c in contours:
         x, y, w, h = cv.boundingRect(c)
         if w > 50:
-            # print(w, h)
-            # print(f"w = {1.2*(w/46)} mm")
-            # print(f"h = {1.2*(h/46)} mm")
             aw = round(1.2 * (w / 46), 2)
             ah = round(1.2 * (h / 46), 2)
             area = round(aw * ah, 3)
@@ -40,13 +37,10 @@ def match_draw_area(pcb_path, calc_area_path):
             cv.putText(pcb_mat, f"{ah}", (x + max_l[0] - (font_size_w + 5), y + max_l[1] + middle_h), font, 2,
                        (255, 255, 255), 3)
 
-            # cv.imwrite(pcb_path, pcb_mat)
-    ri = cv.resize(pcb_mat, (600, 600))
-    cv.imshow("img", ri)
-    cv.waitKey()
+            cv.imwrite(pcb_path, pcb_mat)
 
 
 if __name__ == '__main__':
     match_draw_area(
-        "C:/ssd/mysources2/pcb_imgs/7-pcb-area.bmp",
-        "C:/ssd/mysources2/pcb_imgs/7-pcb-area_calc.bmp")
+        "C:/ssd/mysources2/pcb_imgs/1-pcb-area.bmp",
+        "C:/ssd/mysources2/pcb_imgs/1-pcb-area_calc.bmp")

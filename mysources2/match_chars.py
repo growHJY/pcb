@@ -29,9 +29,10 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
             zb_x = int(zb.split(",")[0])
             zb_y = int(zb.split(",")[1])
 
-            roi = pcb_char_area_open_mor[zb_y:zb_y + 64, zb_x:zb_x + 64]
+            roi = pcb_char_area_open_mor[zb_y:zb_y + 80, zb_x:zb_x + 80]
 
             score_arr = []
+            # cv.imshow("roi", roi)
 
             for char in chars_png_dir:
                 char_mat = cv.imread(input_chars_png_path + char)
@@ -66,11 +67,13 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
 
             # 画框标注
             cv.rectangle(pcb_area_mat, (target_char["loc"][0] + p_max_l[0], target_char["loc"][1] + p_max_l[1]),
-                         (target_char["loc"][0] + p_max_l[0] + 64, target_char["loc"][1] + p_max_l[1] + 64),
+                         (target_char["loc"][0] + p_max_l[0] + 80, target_char["loc"][1] + p_max_l[1] + 80),
                          (0, 0, 255), 4)
             cv.putText(pcb_area_mat, target_char["char"],
                        (target_char["loc"][0] + p_max_l[0], target_char["loc"][1] + p_max_l[1]),
                        cv.FONT_HERSHEY_SIMPLEX, 1.3, (255, 255, 255), 4)
+
+
 
         # 将标注好的结果保存到pcb上
         cv.imwrite(pcb_area, pcb_area_mat)
@@ -116,6 +119,7 @@ def match_chars(input_chars_png_path, input_pcb_char_area_path, pcb_area, pcb_ch
 
 
 if __name__ == '__main__':
-    match_chars("C:/ssd/mysources2/pcb_imgs/characters/", "C:/ssd/mysources2/pcb_imgs/7-pcb-area_char_area.png"
-                , "C:/ssd/mysources2/pcb_imgs/7-pcb-area.bmp",
-                "C:/ssd/mysources2/pcb_imgs/7-pcb-loc.txt")
+    my_id = 5
+    match_chars(f"C:/ssd/mysources2/pcb_imgs/characters/", f"C:/ssd/mysources2/pcb_imgs/{my_id}-pcb-area_char_area.png"
+                , f"C:/ssd/mysources2/pcb_imgs/{my_id}-pcb-area.bmp",
+                f"C:/ssd/mysources2/pcb_imgs/{my_id}-pcb-loc.txt")

@@ -78,6 +78,7 @@ class LoginWindow(QWidget):
             print("login fail")
 
 
+# 用于保存选择图片的变量
 img_path = ""
 
 
@@ -105,7 +106,7 @@ class MainUI(QMainWindow):
         self.p2_pixmap = None
         self.pcb_ok = 0
         self.pcb_ng = 0
-        self.handle_pcb = "C:/ssd/mysources2/pcb_imgs/pcb_img/5.bmp"
+        self.handle_pcb = "C:/ssd/mysources2/pcb_imgs/pcb_img/1.bmp"
         self.gsjy_template = "C:/ssd/mysources2/pcb_imgs/template.png"
         self.initUI()
 
@@ -185,7 +186,8 @@ class MainUI(QMainWindow):
         pcb_char_loc_txt = f"C:/ssd/mysources2/pcb_imgs/{self.handle_pcb[self.handle_pcb.rfind('/') + 1:self.handle_pcb.rfind('.')]}-pcb-loc.txt"
 
         # 定位裁剪pcb
-        char_area_p, pcb_area_p, calc_area_p = my_template.template_pcb(self.handle_pcb, pcb_area_img)
+        char_area_p, pcb_area_p, calc_area_p = my_template.template_pcb(self.handle_pcb, pcb_area_img,
+                                                                        "C:/ssd/mysources2/pcb_imgs/template.bmp")
 
         cut_chars.cut_chars("C:/ssd/mysources2/pcb_imgs/characters", char_area_p, pcb_char_loc_txt)
 
@@ -196,54 +198,45 @@ class MainUI(QMainWindow):
 
         predict_list = []
 
-        classfyName = "knn"
-        featureName = "garbor"
-        pcb_zb = "C:/ssd/mysources2/data/5/5.txt"
-        xml_file = f"C:/ssd/mysources2/train_res/5-{classfyName}-{featureName}.xml"
-        result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
-        predict_list.append(result)
-
-        classfyName = "svm"
-        featureName = "garbor"
-        pcb_zb = "C:/ssd/mysources2/data/8/8.txt"
-        xml_file = f"C:/ssd/mysources2/train_res/8-{classfyName}-{featureName}.xml"
-        result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
-        predict_list.append(result)
-
+        data_id = 1
         classfyName = "knn"
         featureName = "hog"
-        pcb_zb = "C:/ssd/mysources2/data/3/3.txt"
-        xml_file = f"C:/ssd/mysources2/train_res/3-{classfyName}-{featureName}.xml"
+        pcb_zb = f"C:/ssd/mysources2/data/{data_id}/{data_id}.txt"
+        xml_file = f"C:/ssd/mysources2/train_res/{data_id}-{classfyName}-{featureName}.xml"
         result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
         predict_list.append(result)
-        #
-        # classfyName = "knn"
-        # featureName = "hog"
-        # pcb_zb = "C:/ssd/mysources2/data/4/4.txt"
-        # xml_file = f"C:/ssd/mysources2/train_res/4-{classfyName}-{featureName}.xml"
-        # result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
-        # predict_list.append(result)
 
+        data_id = 2
         classfyName = "knn"
         featureName = "hog"
-        pcb_zb = "C:/ssd/mysources2/data/6/6.txt"
-        xml_file = f"C:/ssd/mysources2/train_res/6-{classfyName}-{featureName}.xml"
+        pcb_zb = f"C:/ssd/mysources2/data/{data_id}/{data_id}.txt"
+        xml_file = f"C:/ssd/mysources2/train_res/{data_id}-{classfyName}-{featureName}.xml"
         result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
         predict_list.append(result)
 
+        data_id = 3
         classfyName = "knn"
         featureName = "hog"
-        pcb_zb = "C:/ssd/mysources2/data/7/7.txt"
-        xml_file = f"C:/ssd/mysources2/train_res/7-{classfyName}-{featureName}.xml"
+        pcb_zb = f"C:/ssd/mysources2/data/{data_id}/{data_id}.txt"
+        xml_file = f"C:/ssd/mysources2/train_res/{data_id}-{classfyName}-{featureName}.xml"
         result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
         predict_list.append(result)
 
-        # classfyName = "knn"
-        # featureName = "hog"
-        # pcb_zb = "C:/ssd/mysources2/data/1/1.txt"
-        # xml_file = f"C:/ssd/mysources2/train_res/1-{classfyName}-{featureName}.xml"
-        # result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
-        # predict_list.append(result)
+        data_id = 4
+        classfyName = "knn"
+        featureName = "hog"
+        pcb_zb = f"C:/ssd/mysources2/data/{data_id}/{data_id}.txt"
+        xml_file = f"C:/ssd/mysources2/train_res/{data_id}-{classfyName}-{featureName}.xml"
+        result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
+        predict_list.append(result)
+
+        data_id = 5
+        classfyName = "knn"
+        featureName = "hog"
+        pcb_zb = f"C:/ssd/mysources2/data/{data_id}/{data_id}.txt"
+        xml_file = f"C:/ssd/mysources2/train_res/{data_id}-{classfyName}-{featureName}.xml"
+        result = imgproc.predict(pcb_area_p, pcb_zb, xml_file, classfyName, featureName, pcb_area_p, posFile)
+        predict_list.append(result)
 
         for r in predict_list:
             if r:
